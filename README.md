@@ -58,17 +58,17 @@ The module does not requires any configuration, configuration files are using th
 
 ### Bookmark items
 When you navigating in Content Editor, you can bookmark items by right clicking on the item. 
-![Hackathon Logo](images/context_menu.png?raw=true "Context menu")
+![Hackathon Logo](documentation/images/context_menu.png?raw=true "Context menu")
 Once you clicked the item, you can remove bookmark by the next right click. 
 
 Open Sitecore's Launchpad and locate Content Tool Box shortcut. 
-![Hackathon Logo](images/dashboard.png?raw=true "LaunchPad")
+![Hackathon Logo](documentation/images/dashboard.png?raw=true "LaunchPad")
 
 Click on "Bookmarks" menu item in the main content area or in the left hand sided navigation
-![Hackathon Logo](images/app_main.png?raw=true "Start Screen")
+![Hackathon Logo](documentation/images/app_main.png?raw=true "Start Screen")
 
 The following page will be loaded
-![Hackathon Logo](images/bookmark.png?raw=true "Hackathon Logo")
+![Hackathon Logo](documentation/images/bookmark.png?raw=true "Hackathon Logo")
 
 The table contains the following informations for a single bookmark item
 - Icon of the item
@@ -88,7 +88,7 @@ There is a tools dropdown which has the following features.
 ### Recent Activity
 Click on "Recent activities" menu item in the main content area or in the left hand sided navigation
 The following page will be loaded
-![Hackathon Logo](images/recent.png?raw=true "Recent activities")
+![Hackathon Logo](documentation/images/recent.png?raw=true "Recent activities")
 The table shows items which were created or updated by the context editor user. 
 
 There is a tools dropdown which has the following features.
@@ -99,7 +99,7 @@ There is a tools dropdown which has the following features.
 ### My Locked Items
 Click on "My Locked items" menu item in the main content area or in the left hand sided navigation
 The following page will be loaded
-![Hackathon Logo](images/unlock.png?raw=true "Recent activities")
+![Hackathon Logo](documentation/images/unlock.png?raw=true "Recent activities")
 The table shows items which were locked by the context editor user. 
 
 There is a tools dropdown which has the following features.
@@ -110,7 +110,7 @@ There is a tools dropdown which has the following features.
 The page has the 'Unlock all items' option which unlocks all locked items. 
 
 Before the application unlock the items, it shows a confirmation dialog for the editor user. 
-![Hackathon Logo](images/unlock_warning.png?raw=true "Warning")
+![Hackathon Logo](documentation/images/unlock_warning.png?raw=true "Warning")
 
 
 ## Video
