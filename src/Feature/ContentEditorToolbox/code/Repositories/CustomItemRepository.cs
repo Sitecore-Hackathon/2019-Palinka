@@ -65,17 +65,22 @@ namespace Feature.ContentEditorToolbox.Repositories
             var sitecoreItem = this.database.GetItem(new Sitecore.Data.ID(id));
             if (sitecoreItem != null)
             {
+                // what is the latest updated version by the user?
+                var versions = GetLanguageVersions(sitecoreItem);
+                var finalVersion = versions.OrderBy(t => t.Statistics.Updated).Last();
+
                 GenericItemEntity item = new GenericItemEntity
                 {
                     Name = sitecoreItem.Name,
                     Id = sitecoreItem.ID.ToString(),
-                    Languages = GetLanguages(sitecoreItem),
+                    Languages = versions.Select(t => t.Language.Name).ToArray(),
                     Path = sitecoreItem.Paths.FullPath,
                     TemplateName = sitecoreItem.TemplateName,
                     IconPath = GetIcon(sitecoreItem),
-                    HasPresentation = HasPresentation(sitecoreItem),
-                    WorkflowState = GetWorkflowState(sitecoreItem),
-                    IsPublished = IsLive(sitecoreItem)
+                    HasPresentation = HasPresentation(finalVersion),
+                    WorkflowState = GetWorkflowState(finalVersion),
+                    IsPublished = IsLive(sitecoreItem),
+                    Updated = finalVersion.Statistics.Updated.ToString("yyyy-MM-dd HH:mm")
                 };
 
                 return item;
@@ -162,10 +167,25 @@ namespace Feature.ContentEditorToolbox.Repositories
             return liveDatabase.GetItem(sitecoreItem.ID) != null;
         }
 
-        private string[] GetLanguages(Sitecore.Data.Items.Item sitecoreItem)
+        private Sitecore.Data.Items.Item[] GetLanguageVersions(Sitecore.Data.Items.Item sitecoreItem)
         {
             var languages = sitecoreItem.Languages;
-            return languages.Select(t => t.Name).ToArray();
+            List<Sitecore.Data.Items.Item> versions = new List<Sitecore.Data.Items.Item>();
+            foreach (var language in languages)
+            {
+                var finalVersion = sitecoreItem.Versions.GetLatestVersion(language);
+                if (finalVersion.Statistics.Created > DateTime.MinValue)
+                {
+                    versions.Add(finalVersion);
+                }
+            }
+
+            if (versions.Count == 0)
+            {
+                versions.Add(sitecoreItem);
+            }
+
+            return versions.ToArray();
         }
 
         private string GetWorkflowState(Sitecore.Data.Items.Item sitecoreItem)

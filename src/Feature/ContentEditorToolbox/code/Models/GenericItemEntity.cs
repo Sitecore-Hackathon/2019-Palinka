@@ -16,5 +16,7 @@ namespace Feature.ContentEditorToolbox.Models
         public string IconPath { get; set; }
 
         public bool IsPublished { get; set; }
+
+        public string Updated { get; set; }
     }
 }
