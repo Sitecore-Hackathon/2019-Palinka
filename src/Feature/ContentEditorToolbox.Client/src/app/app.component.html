@@ -1,7 +1,7 @@
 <sc-page [showNav]="isNavigationShown">
   <div scPageHeader>
     <sc-global-header appName="Content Editor Toolbox" [(show)]="isNavigationShown">
-      <a href="/" scGlobalLogo></a>
+      <a href="/sitecore/shell/sitecore/client/Applications/Launchpad" scGlobalLogo></a>
       <!-- AccountInformation gets accountName and accountImageUrl automatically from Sitecore context which is configured in AppModule -->
       <sc-account-information (logout)="logoutService.logout()"></sc-account-information>
     </sc-global-header>
@@ -13,19 +13,28 @@
         <sc-menu-category icon="cake_slice" text="Components" [open]="true">
           <sc-menu-item>
             <a scMenuItemLink routerLink="/home" routerLinkActive="active">
-                <sc-icon icon="home" size="small">copy</sc-icon>
-                Home</a>
-          </sc-menu-item>     
+              <sc-icon icon="home" size="small"></sc-icon>
+              Home
+            </a>
+          </sc-menu-item>
           <sc-menu-item>
             <a scMenuItemLink routerLink="/bookmarks" routerLinkActive="active">
-              <sc-icon icon="star" size="small">copy</sc-icon>
-              Bookmarks</a>
-          </sc-menu-item>  
+              <sc-icon icon="star" size="small"></sc-icon>
+              Bookmarks
+            </a>
+          </sc-menu-item>
           <sc-menu-item>
-              <a scMenuItemLink routerLink="/recentactivities" routerLinkActive="active">
-                <sc-icon icon="clock" size="small">copy</sc-icon>
-                Recent Activities</a>
-            </sc-menu-item>        
+            <a scMenuItemLink routerLink="/recentactivities" routerLinkActive="active">
+              <sc-icon icon="clock" size="small"></sc-icon>
+              Recent activities
+            </a>
+          </sc-menu-item>
+          <sc-menu-item>
+            <a scMenuItemLink routerLink="/lockeditems" routerLinkActive="active">
+              <sc-icon icon="key" size="small"></sc-icon>
+              My locked items
+            </a>
+          </sc-menu-item>
         </sc-menu-category>
       </sc-menu>
     </nav>

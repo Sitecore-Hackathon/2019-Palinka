@@ -34,6 +34,8 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { ScProgressIndicatorPanelModule } from "@speak/ng-bcl/progress-indicator-panel";
 import { RecentActivityPageComponent } from './recent-activity-page/recent-activity-page.component';
 import { BookmarkPageComponent } from './bookmark-page/bookmark-page.component';
+import { LockedItemPageComponent } from './locked-item-page/locked-item-page.component';
+import { LockeditemsComponent } from './components/lockeditems/lockeditems.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import { BookmarkPageComponent } from './bookmark-page/bookmark-page.component';
     BookmarkComponent,
     RecentActivityComponent,
     RecentActivityPageComponent,
-    BookmarkPageComponent
+    BookmarkPageComponent,
+    LockedItemPageComponent,
+    LockeditemsComponent
   ],
   imports: [
     BrowserModule,
@@ -52,7 +56,8 @@ import { BookmarkPageComponent } from './bookmark-page/bookmark-page.component';
     RouterModule.forRoot([
       { path: 'home', component: StartPageComponent, pathMatch: 'full' },
       { path: 'bookmarks', component: BookmarkPageComponent },
-      { path: 'recentactivities', component: RecentActivityPageComponent }
+      { path: 'recentactivities', component: RecentActivityPageComponent },
+      { path: 'lockeditems', component: LockedItemPageComponent }
     ]),
     ScAccountInformationModule,
     ScActionBarModule,

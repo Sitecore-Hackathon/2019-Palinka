@@ -17,28 +17,12 @@ export class BookmarkComponent implements OnInit {
   leftValue: any;
   topValue: any;
   hovered: boolean;
+  hasError: boolean;
 
   constructor(public contentEditorService: ContentEditorToolService, private _clipboardService: ClipboardService) { }
 
   ngOnInit() {
     this.load();
-  }
-
-  showDetails(event, item) {
-
-    this.hoveredItem = item;
-    this.topValue = event.pageY - 50;
-    this.leftValue = event.pageX;
-    this.hovered = true;
-
-  }
-
-  unhover(event) {
-    if (Math.abs(this.topValue - event.pageY) > 5 || Math.abs(this.leftValue - event.pageX) > 5 && this.hovered) {
-      this.hovered = false;
-      this.leftValue = 0;
-      this.topValue = 0;
-    }
   }
 
   load() {
@@ -51,8 +35,9 @@ export class BookmarkComponent implements OnInit {
           this.bookmarkedItems = data as GenericEntityItem[];
           this.bookmarksIsLoading = false;
         },
-        error: error => {
-          this.bookmarkedItems = error;
+        error: () => {
+          this.hasError = true;
+          setTimeout(() => { this.hasError = false }, 3000);
           this.bookmarksIsLoading = false;
         }
       }
@@ -61,8 +46,23 @@ export class BookmarkComponent implements OnInit {
 
   removeBookmarkedItem(itemId: string) {
     this.contentEditorService.removeBookmarkedItem(itemId).subscribe({
-      next: result => { },  // success
-      error: error => { }   // fail silently
+      next: () => { this.load() },  // success
+      error: () => {
+        this.hasError = true;
+        setTimeout(() => { this.hasError = false }, 3000);
+        this.bookmarksIsLoading = false;
+      }
+    });
+  }
+
+  publisItem(itemId: string) {
+    this.contentEditorService.publishItem(itemId).subscribe({
+      next: () => { setTimeout(() => { this.load()}, 1000); },  // success
+      error: () => {
+        this.hasError = true;
+        setTimeout(() => { this.hasError = false }, 3000);
+        this.bookmarksIsLoading = false;
+      }
     });
   }
 

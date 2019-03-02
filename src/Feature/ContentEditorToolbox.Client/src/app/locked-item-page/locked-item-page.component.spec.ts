@@ -1,19 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { BookmarkPageComponent } from './bookmark-page.component';
 
-describe('BookmarkPageComponent', () => {
-  let component: BookmarkPageComponent;
-  let fixture: ComponentFixture<BookmarkPageComponent>;
+import { LockedItemPageComponent } from './locked-item-page.component';
+
+describe('LockedItemPageComponent', () => {
+  let component: LockedItemPageComponent;
+  let fixture: ComponentFixture<LockedItemPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BookmarkPageComponent ]
+      declarations: [ LockedItemPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BookmarkPageComponent);
+    fixture = TestBed.createComponent(LockedItemPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
