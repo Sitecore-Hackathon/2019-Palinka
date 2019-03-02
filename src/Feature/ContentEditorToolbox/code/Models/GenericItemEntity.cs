@@ -19,5 +19,7 @@
         public bool IsPublished { get; set; }
 
         public string Updated { get; set; }
+
+        public bool IsLocked { get; set; }
     }
 }
