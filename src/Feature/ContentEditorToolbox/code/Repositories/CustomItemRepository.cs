@@ -116,7 +116,8 @@ namespace Feature.ContentEditorToolbox.Repositories
                     HasPresentation = HasPresentation(finalVersion),
                     WorkflowState = GetWorkflowState(finalVersion),
                     IsPublished = IsLive(sitecoreItem),
-                    Updated = finalVersion.Statistics.Updated.ToString("yyyy-MM-dd HH:mm")
+                    Updated = finalVersion.Statistics.Updated.ToString("yyyy-MM-dd HH:mm"),
+                    IsLocked = versions.Any(t => t.Locking.IsLocked())
                 };
 
                 return item;
@@ -193,11 +194,11 @@ namespace Feature.ContentEditorToolbox.Repositories
         {
             List<GenericItemEntity> entities = new List<GenericItemEntity>();
 
-            var bookmarkIdList = service.GetMyLockedItems();
-            foreach (var id in bookmarkIdList)
+            var lockedList = service.GetMyLockedItems();
+            foreach (var id in lockedList)
             {
                 var item = FindById(id);
-                if (item != null)
+                if (item != null && item.IsLocked)
                 {
                     entities.Add(item);
                 }
