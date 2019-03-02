@@ -218,11 +218,15 @@ namespace Feature.ContentEditorToolbox.Repositories
             }
 
             var item = this.database.GetItem(entity.Id);
-            if (item != null && item.Locking.IsLocked() && item.Access.CanWrite())
+            if (item != null)
             {
-                using (new Sitecore.SecurityModel.SecurityDisabler())
+                var versions = GetLanguageVersions(item);
+                foreach (var version in versions)
                 {
-                    item.Locking.Unlock();
+                    if (version.Locking.IsLocked() && version.Access.CanWrite())
+                    {
+                        version.Locking.Unlock();
+                    }
                 }
             }
         }
@@ -241,7 +245,7 @@ namespace Feature.ContentEditorToolbox.Repositories
             var item = this.database.GetItem(entity.Id);
             var targets = new Database[] { liveDatabase };
 
-            Sitecore.Publishing.PublishManager.PublishItem(item, targets, item.Languages, true, false, false);
+            Sitecore.Publishing.PublishManager.PublishItem(item, targets, item.Languages, false, false, false);
         }
 
         /// <summary>
