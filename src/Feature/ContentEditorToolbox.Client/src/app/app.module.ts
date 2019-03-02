@@ -27,19 +27,22 @@ import { ScDialogModule } from '@speak/ng-bcl/dialog';
 import { SciLogoutService } from '@speak/ng-sc/logout';
 import { AppComponent } from './app.component';
 import { StartPageComponent } from './start-page/start-page.component';
-import {BookmarkService} from './services/bookmark.service';
-import { RecentActivityService } from './services/recentActivity.service';
+import {ContentEditorToolService} from './services/ContentEditorTool.service';
 import { BookmarkComponent } from './components/bookmark/bookmark.component';
 import { RecentActivityComponent } from './components/recent-activity/recent-activity.component';
 import { ClipboardModule } from 'ngx-clipboard';
 import { ScProgressIndicatorPanelModule } from "@speak/ng-bcl/progress-indicator-panel";
+import { RecentActivityPageComponent } from './recent-activity-page/recent-activity-page.component';
+import { BookmarkPageComponent } from './bookmark-page/bookmark-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     StartPageComponent,
     BookmarkComponent,
-    RecentActivityComponent
+    RecentActivityComponent,
+    RecentActivityPageComponent,
+    BookmarkPageComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +50,9 @@ import { ScProgressIndicatorPanelModule } from "@speak/ng-bcl/progress-indicator
     HttpModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: StartPageComponent, pathMatch: 'full' }
+      { path: 'home', component: StartPageComponent, pathMatch: 'full' },
+      { path: 'bookmarks', component: BookmarkPageComponent },
+      { path: 'recentactivities', component: RecentActivityPageComponent }
     ]),
     ScAccountInformationModule,
     ScActionBarModule,
@@ -72,7 +77,7 @@ import { ScProgressIndicatorPanelModule } from "@speak/ng-bcl/progress-indicator
       dictionaryToken: DICTIONARY
     })
   ],
-  providers: [ SciLogoutService, BookmarkService, RecentActivityService
+  providers: [ SciLogoutService, ContentEditorToolService
   ],
   bootstrap: [AppComponent]
 })

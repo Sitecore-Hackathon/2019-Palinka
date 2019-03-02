@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { GenericEntityItem } from '../../services/GenericEntityItem';
-import { BookmarkService } from '../../services/bookmark.service';
 import { SortHeaderState } from '@speak/ng-bcl/table';
 import { ClipboardService } from 'ngx-clipboard';
+import { ContentEditorToolService } from '../../services/ContentEditorTool.service';
 
 @Component({
   selector: 'sc-bookmark-component',
@@ -12,43 +12,40 @@ import { ClipboardService } from 'ngx-clipboard';
 export class BookmarkComponent implements OnInit {
 
   bookmarkedItems: GenericEntityItem[];
-  bookmarksIsLoading:boolean;
-  hoveredItem:any;
-  leftValue:any;
-  topValue:any;
-  hovered:boolean;
+  bookmarksIsLoading: boolean;
+  hoveredItem: any;
+  leftValue: any;
+  topValue: any;
+  hovered: boolean;
 
-  constructor(public bookmarkService: BookmarkService, private _clipboardService: ClipboardService ) { }
-   
+  constructor(public contentEditorService: ContentEditorToolService, private _clipboardService: ClipboardService) { }
+
   ngOnInit() {
     this.load();
   }
 
-  showDetails(event, item){
-    console.log('hovered');
+  showDetails(event, item) {
+
     this.hoveredItem = item;
-    
-    this.topValue = event.pageY-50;
+    this.topValue = event.pageY - 50;
     this.leftValue = event.pageX;
     this.hovered = true;
-  
+
   }
 
-  unhover(event){
-    if(Math.abs(this.topValue-event.pageY)>5 || Math.abs(this.leftValue-event.pageX)>5 && this.hovered){
-    console.log('unhovered');
-    this.hovered = false;
-    this.leftValue = 0;
-    this.topValue = 0;
+  unhover(event) {
+    if (Math.abs(this.topValue - event.pageY) > 5 || Math.abs(this.leftValue - event.pageX) > 5 && this.hovered) {
+      this.hovered = false;
+      this.leftValue = 0;
+      this.topValue = 0;
     }
-    
   }
 
-  load(){
+  load() {
     this.bookmarksIsLoading = true;
     this.topValue = 0;
     this.leftValue = 0;
-    this.bookmarkService.getBookmarkedItems().subscribe(
+    this.contentEditorService.getBookmarkedItems().subscribe(
       {
         next: data => {
           this.bookmarkedItems = data as GenericEntityItem[];
@@ -62,8 +59,8 @@ export class BookmarkComponent implements OnInit {
     );
   }
 
-  removeBookmarkedItem(itemId:string){
-    this.bookmarkService.removeBookmarkedItem(itemId).subscribe({
+  removeBookmarkedItem(itemId: string) {
+    this.contentEditorService.removeBookmarkedItem(itemId).subscribe({
       next: result => { },  // success
       error: error => { }   // fail silently
     });
@@ -72,7 +69,7 @@ export class BookmarkComponent implements OnInit {
   trackByItemName(id: string, header): any { return header.ItemName; }
 
   onSortChange(sortState: SortHeaderState[]) {
-   
+
     this.bookmarkedItems.sort((a, b) => {
       let result = 0;
       sortState.forEach(header => {

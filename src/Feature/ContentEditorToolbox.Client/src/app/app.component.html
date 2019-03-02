@@ -12,17 +12,26 @@
       <sc-menu>
         <sc-menu-category icon="cake_slice" text="Components" [open]="true">
           <sc-menu-item>
-            <a scMenuItemLink routerLink="" routerLinkActive="active">Home</a>
+            <a scMenuItemLink routerLink="/home" routerLinkActive="active">
+                <sc-icon icon="home" size="small">copy</sc-icon>
+                Home</a>
           </sc-menu-item>     
           <sc-menu-item>
-            <a scMenuItemLink routerLink="/servicesample" routerLinkActive="active">Service Sample</a>
-          </sc-menu-item>         
+            <a scMenuItemLink routerLink="/bookmarks" routerLinkActive="active">
+              <sc-icon icon="star" size="small">copy</sc-icon>
+              Bookmarks</a>
+          </sc-menu-item>  
+          <sc-menu-item>
+              <a scMenuItemLink routerLink="/recentactivities" routerLinkActive="active">
+                <sc-icon icon="clock" size="small">copy</sc-icon>
+                Recent Activities</a>
+            </sc-menu-item>        
         </sc-menu-category>
       </sc-menu>
     </nav>
   </aside>
   <div scPageAppHeader>
-    <sc-application-header text="Starter Template"></sc-application-header>
+    <sc-application-header text="Content Editor Toolbox"></sc-application-header>
   </div>
   <article scPageContent class="p-4">
     <router-outlet></router-outlet>
