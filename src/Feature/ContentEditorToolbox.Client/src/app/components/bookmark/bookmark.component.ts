@@ -55,7 +55,7 @@ export class BookmarkComponent implements OnInit {
     });
   }
 
-  publisItem(itemId: string) {
+  publishItem(itemId: string) {
     this.contentEditorService.publishItem(itemId).subscribe({
       next: () => { setTimeout(() => { this.load()}, 1000); },  // success
       error: () => {

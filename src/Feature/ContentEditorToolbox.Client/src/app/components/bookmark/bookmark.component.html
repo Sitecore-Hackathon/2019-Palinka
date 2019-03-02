@@ -22,6 +22,7 @@
           <th>Templatename</th>
           <th>Path</th>
           <th>Workflow State</th>
+          <th>Updated</th>
           <th>Is published</th>
           <th></th>
           <th></th>
@@ -44,6 +45,7 @@
             <sc-icon icon="copy" title="Copy to clipboard" size="small" [ngxClipboard]="itemPathTarget">copy</sc-icon>
           </td>
           <td>{{ data.WorkflowState }}</td>
+          <td>{{ data.Updated }}</td>
           <td>
             <sc-icon icon="check" title="Published" size="small" *ngIf="data.IsPublished"></sc-icon>
             <sc-icon icon="delete" title="Not published" size="small" *ngIf="!data.IsPublished"></sc-icon>

@@ -26,7 +26,7 @@ export class ContentEditorToolService {
   }
 
   unlockAll() {
-    return this.http.get(`/sitecore/api/ssc/Feature-ContentEditorToolbox-Controllers/EditorToolbox/-/UnlockAll`);
+    return this.http.request('post',`/sitecore/api/ssc/Feature-ContentEditorToolbox-Controllers/EditorToolbox/-/UnlockAll`);
   }
 
   publishItem(itemId: string) {

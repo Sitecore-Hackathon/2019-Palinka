@@ -59,4 +59,22 @@ export class LockeditemsComponent implements OnInit {
       }
     );
   }
+
+  unlockAll() {
+    this.lockedItemIsLoading = true;
+    this.dialogService.close();
+    this.contentEditorToolService.unlockAll().subscribe(
+      {
+        next: () => {
+          setTimeout(() => { this.load(); }, 1000);
+
+        },
+        error: () => {
+          this.hasError = true;
+          setTimeout(() => { this.hasError = false }, 3000);
+          this.lockedItemIsLoading = false;
+        }
+      }
+    );
+  }
 }

@@ -7,4 +7,5 @@ export interface GenericEntityItem {
   HasPresentation: boolean;
   IsPublished: boolean;
   WorkflowState: string;
+  Updated: string;
 }
