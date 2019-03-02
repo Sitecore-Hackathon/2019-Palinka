@@ -91,8 +91,6 @@
     <Content Include="App_Config\Include\Foundation\Foundation.Serialization.Base.config" />
     <Content Include="App_Config\Include\Foundation\Foundation.Serialization.config" />
     <Content Include="App_Config\Include\Foundation\Foundation.Serialization.Rainbow.config" />
-    <Content Include="App_Config\Include\Foundation\Foundation.Serialization.Settings.config" />
-    <Content Include="App_Config\Include\Foundation\Foundation.Serialization.Settings.Lists.config" />
     <Content Include="App_Config\Include\Rainbow.config" />
     <Content Include="App_Config\Include\Unicorn.SharedSecret.config" />
     <Content Include="App_Config\Include\Unicorn\Unicorn.AutoPublish.config" />

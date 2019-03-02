@@ -52,7 +52,8 @@ Provide detailed instructions on how to install the module, and include screensh
 
 ## Configuration
 
-The module does not requires any configuration, configuration files are using the proper Server Roles. (Standalone or Content Management)
+The module does not requires any extra configuration, configuration files are using the proper Server Roles. (Standalone or Content Management)
+The package contains a configuration patch, which register the Bookmark command and sets the "Sitecore.Services.SecurityPolicy" to "ServicesOnPolicy" - it is required for the Speak application.
 
 ## Usage
 
