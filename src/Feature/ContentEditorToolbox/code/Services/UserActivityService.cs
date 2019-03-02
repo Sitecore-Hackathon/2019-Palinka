@@ -1,4 +1,7 @@
 ﻿using Sitecore.Configuration;
+using Sitecore.ContentSearch;
+using Sitecore.ContentSearch.Linq;
+using Sitecore.ContentSearch.SearchTypes;
 using Sitecore.Data.Managers;
 using System;
 using System.Collections.Generic;
@@ -9,6 +12,12 @@ namespace Feature.ContentEditorToolbox.Services
     public class UserActivityService
     {
         private string profileFieldName = "BookmarkList";
+
+        private string contentRootPath = "/sitecore/content";
+
+        private int maxItemCount = 100;
+
+        private string defaultMasterIndex = "sitecore_master_index";
 
         public bool CheckUser()
         {
@@ -54,6 +63,11 @@ namespace Feature.ContentEditorToolbox.Services
             return raw.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
         }
 
+        /// <summary>
+        /// Check whether the item is bookmarked
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns></returns>
         public bool IsBookmarked(Sitecore.Data.Items.Item item)
         {
             var profile = Sitecore.Context.User.Profile;
@@ -62,6 +76,10 @@ namespace Feature.ContentEditorToolbox.Services
             return raw.Contains(item.ID.ToString());
         }
 
+        /// <summary>
+        /// Bookmark the item
+        /// </summary>
+        /// <param name="item">The item</param>
         public void Bookmark(Sitecore.Data.Items.Item item)
         {
             if (item == null)
@@ -77,6 +95,10 @@ namespace Feature.ContentEditorToolbox.Services
             }
         }
 
+        /// <summary>
+        /// Revert the item bookmark
+        /// </summary>
+        /// <param name="item">The item</param>
         public void UnBookmark(Sitecore.Data.Items.Item item)
         {
             if (item == null)
@@ -92,7 +114,25 @@ namespace Feature.ContentEditorToolbox.Services
             }
         }
 
-        public IEnumerable<string> GetRecentActivities()
+        public IEnumerable<string> GetRecentUpdates(int days)
+        {
+            var index = GetSearchIndex();
+            DateTime dateTime = DateTime.Today.AddDays(-days);
+            string userName = $"sitecore{GetUserName()}".ToLower();
+
+            using (var context = index.CreateSearchContext())
+            {
+                var results = context.GetQueryable<SearchResultItem>()
+                                      .Where(item => item.Updated > dateTime && item.UpdatedBy.Equals(userName))
+                                      .OrderByDescending(item => item.Updated)
+                                      .Take(maxItemCount)
+                                      .ToArray();
+
+                return results.Select(t => t.ItemId.ToString()).Distinct();
+            }
+        }
+
+        public IEnumerable<string> GetChangesFromHistory(int days)
         {
             var database = Factory.GetDatabase("master");
             var records = HistoryManager.GetHistory(database, DateTime.Today.AddDays(-7), DateTime.Now);
@@ -102,6 +142,21 @@ namespace Feature.ContentEditorToolbox.Services
                 .OrderByDescending(t => t.Created)
                 .Select(t => t.ItemId.ToString())
                 .ToArray();
+        }
+
+        private ISearchIndex GetSearchIndex()
+        {
+            var database = Factory.GetDatabase("master");
+            var contentItem = database.GetItem(contentRootPath);
+
+            SitecoreIndexableItem indexableItem = new SitecoreIndexableItem(contentItem);
+            var index = ContentSearchManager.GetIndex(indexableItem);
+            if (index == null)
+            {
+                index = ContentSearchManager.GetIndex(defaultMasterIndex);
+            }
+
+            return index;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Feature.ContentEditorToolbox.Models;
 using Feature.ContentEditorToolbox.Services;
 using Sitecore.Data;
+using Sitecore.Data.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,8 @@ namespace Feature.ContentEditorToolbox.Repositories
         private readonly Database database;
         private readonly Database liveDatabase;
 
+        UserActivityService service = new UserActivityService();
+
         public CustomItemRepository()
         {
             this.database = Sitecore.Data.Database.GetDatabase("master");
@@ -21,12 +24,30 @@ namespace Feature.ContentEditorToolbox.Repositories
 
         public void Add(GenericItemEntity entity)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(entity.Id))
+            {
+                return;
+            }
+
+            var item = this.database.GetItem(entity.Id);
+            if (item != null)
+            {
+                service.Bookmark(item);
+            }
         }
 
         public void Delete(GenericItemEntity entity)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(entity.Id))
+            {
+                return;
+            }
+
+            var item = this.database.GetItem(entity.Id);
+            if (item != null)
+            {
+                service.UnBookmark(item);
+            }
         }
 
         public bool Exists(GenericItemEntity entity)
@@ -75,7 +96,6 @@ namespace Feature.ContentEditorToolbox.Repositories
 
         public IEnumerable<GenericItemEntity> GetBookmarks()
         {
-            UserActivityService service = new UserActivityService();
             List<GenericItemEntity> entities = new List<GenericItemEntity>();
 
             var bookmarkIdList = service.GetBookmarkList();
@@ -93,10 +113,9 @@ namespace Feature.ContentEditorToolbox.Repositories
 
         public IEnumerable<GenericItemEntity> GetRecentModifications()
         {
-            UserActivityService service = new UserActivityService();
             List<GenericItemEntity> entities = new List<GenericItemEntity>();
 
-            var bookmarkIdList = service.GetRecentActivities();
+            var bookmarkIdList = service.GetRecentUpdates(90);
             foreach (var id in bookmarkIdList)
             {
                 var item = FindById(id);
@@ -111,18 +130,26 @@ namespace Feature.ContentEditorToolbox.Repositories
 
         private string GetIcon(Sitecore.Data.Items.Item sitecoreItem)
         {
-            string iconPath = sitecoreItem[Sitecore.FieldIDs.Icon];
-            if (string.IsNullOrWhiteSpace(iconPath))
+            string iconImageRaw = ThemeManager.GetIconImage(sitecoreItem, 32, 32, "", "");
+            if (!string.IsNullOrWhiteSpace(iconImageRaw) && iconImageRaw.Contains("src="))
             {
-                iconPath = sitecoreItem.Template.InnerItem[Sitecore.FieldIDs.Icon];
+                int i0 = iconImageRaw.IndexOf("src=");
+                int i1 = iconImageRaw.IndexOf('"', i0 + 1);
+                if (i1 < 0)
+                {
+                    return null;
+                }
+
+                int i2 = iconImageRaw.IndexOf('"', i1 + 1);
+                if (i2 < 0)
+                {
+                    return null;
+                }
+
+                return iconImageRaw.Substring(i1, i2 - i1).Trim(' ', '"', '\\');
             }
 
-            if (!string.IsNullOrWhiteSpace(iconPath))
-            {
-                return $"{Sitecore.Configuration.Settings.Icons.CacheFolder.TrimEnd('/')}/{iconPath}";
-            }
-
-            return iconPath;
+            return null;
         }
 
         private bool HasPresentation(Sitecore.Data.Items.Item sitecoreItem)
