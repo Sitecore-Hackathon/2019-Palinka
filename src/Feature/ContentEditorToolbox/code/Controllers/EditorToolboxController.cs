@@ -17,7 +17,7 @@ namespace Feature.ContentEditorToolbox.Controllers
         /// <summary>
         /// The custom repository
         /// </summary>
-        private ICustomRepository<GenericItemEntity> customRepositoryActions;
+        private readonly ICustomRepository<GenericItemEntity> customRepositoryActions;
 
         /// <summary>
         /// Initializes a new instance
@@ -33,7 +33,7 @@ namespace Feature.ContentEditorToolbox.Controllers
         /// Initializes a new instance
         /// </summary>
         public EditorToolboxController()
-            : base(new CustomItemRepository())
+            : this(new CustomItemRepository())
         {
         }
 
