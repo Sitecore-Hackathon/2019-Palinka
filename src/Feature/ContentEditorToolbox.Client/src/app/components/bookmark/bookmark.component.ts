@@ -1,0 +1,99 @@
+import { Component, OnInit } from '@angular/core';
+import { GenericEntityItem } from '../../services/GenericEntityItem';
+import { BookmarkService } from '../../services/bookmark.service';
+import { SortHeaderState } from '@speak/ng-bcl/table';
+import { ClipboardService } from 'ngx-clipboard';
+
+@Component({
+  selector: 'sc-bookmark-component',
+  templateUrl: './bookmark.component.html',
+  styleUrls: ['./bookmark.component.scss']
+})
+export class BookmarkComponent implements OnInit {
+
+  bookmarkedItems: GenericEntityItem[];
+  bookmarksIsLoading:boolean;
+  hoveredItem:any;
+  leftValue:any;
+  topValue:any;
+  hovered:boolean;
+
+  constructor(public bookmarkService: BookmarkService, private _clipboardService: ClipboardService ) { }
+   
+  ngOnInit() {
+    this.load();
+  }
+
+  showDetails(event, item){
+    console.log('hovered');
+    this.hoveredItem = item;
+    
+    this.topValue = event.pageY-50;
+    this.leftValue = event.pageX;
+    this.hovered = true;
+  
+  }
+
+  unhover(event){
+    if(Math.abs(this.topValue-event.pageY)>5 || Math.abs(this.leftValue-event.pageX)>5 && this.hovered){
+    console.log('unhovered');
+    this.hovered = false;
+    this.leftValue = 0;
+    this.topValue = 0;
+    }
+    
+  }
+
+  load(){
+    this.bookmarksIsLoading = true;
+    this.topValue = 0;
+    this.leftValue = 0;
+    this.bookmarkService.getBookmarkedItems().subscribe(
+      {
+        next: data => {
+          this.bookmarkedItems = data as GenericEntityItem[];
+          this.bookmarksIsLoading = false;
+        },
+        error: error => {
+          this.bookmarkedItems = error;
+          this.bookmarksIsLoading = false;
+        }
+      }
+    );
+  }
+
+  removeBookmarkedItem(itemId:string){
+    this.bookmarkService.removeBookmarkedItem(itemId).subscribe({
+      next: result => { },  // success
+      error: error => { }   // fail silently
+    });
+  }
+
+  trackByItemName(id: string, header): any { return header.ItemName; }
+
+  onSortChange(sortState: SortHeaderState[]) {
+   
+    this.bookmarkedItems.sort((a, b) => {
+      let result = 0;
+      sortState.forEach(header => {
+        if (result !== 0) {
+          return;
+        }
+        if (a[header.id] < b[header.id]) {
+          if (header.direction === 'asc') {
+            result = -1;
+          } else if (header.direction === 'desc') {
+            result = 1;
+          }
+        } else if (a[header.id] > b[header.id]) {
+          if (header.direction === 'asc') {
+            result = 1;
+          } else if (header.direction === 'desc') {
+            result = -1;
+          }
+        }
+      });
+      return result;
+    });
+  }
+}

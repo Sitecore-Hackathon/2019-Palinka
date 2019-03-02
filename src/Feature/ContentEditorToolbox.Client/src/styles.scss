@@ -1,0 +1,44 @@
+/* You can add global styles to this file, and also import other style files */
+html, body {
+  height: 100%;
+}
+.bookmarkTools{
+  //  box-sizing: content-box;
+  width:100%;
+  display:block;
+  .btn{
+    
+  }
+  .dropdownMenu{
+    width:100%;
+  }
+}
+
+.bookmarkRow{
+  td{
+  vertical-align: middle;
+  }
+}
+
+.hidden{
+  position: absolute;
+  left: -3000px;
+}
+
+.overlay{
+  position: fixed;
+  top:20px;
+  z-index: 9999;
+}
+
+.si-check{
+  color:green;
+}
+.si-delete{
+  color:red;
+}
+
+.si-copy{
+  color:darkblue;
+  cursor: pointer;
+}
