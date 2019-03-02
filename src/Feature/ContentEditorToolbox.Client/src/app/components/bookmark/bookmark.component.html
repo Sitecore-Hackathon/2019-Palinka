@@ -11,8 +11,8 @@
     <p>Manage your bookmarks</p>
     <p>Open your bookmarked items in Content/Experience editor</p>
     <button scIconButton Title="Reload" (click)="load()">
-        <sc-icon icon="arrow_circle2"></sc-icon>
-      </button>
+      <sc-icon icon="arrow_circle2"></sc-icon>
+    </button>
     <table scTable>
       <thead scSort (sortChange)="onSortChange($event)">
         <tr>
@@ -28,21 +28,22 @@
       </thead>
       <tbody *ngIf="!bookmarksIsLoading" (mousemove)="unhover($event)">
         <tr *ngFor="let data of bookmarkedItems; trackBy: trackByItemName" class="bookmarkRow">
-            <td >
-                <img src="{{data.IconPath}}" />
-            </td>
-          <td >
+          <td>
+            <img src="{{data.IconPath}}" />
+          </td>
+          <td>
             {{ data.Name }}
             <input type="text" class="hidden" #itemIdTarget value="{{data.Id}}">
-            <sc-icon icon="copy" title="Copy Item ID to clipboard" size="small" [ngxClipboard]="itemIdTarget">copy</sc-icon>
+            <sc-icon icon="copy" title="Copy Item ID to clipboard" size="small" [ngxClipboard]="itemIdTarget">copy
+            </sc-icon>
           </td>
           <td>{{ data.TemplateName }}</td>
-          <td>{{ data.Path }}    
+          <td>{{ data.Path }}
             <input type="text" class="hidden" #itemPathTarget value="{{data.Path}}">
             <sc-icon icon="copy" title="Copy to clipboard" size="small" [ngxClipboard]="itemPathTarget">copy</sc-icon>
           </td>
           <td>{{ data.WorkflowState }}</td>
-          <td (click)="showDetails($event, data)" >
+          <td (click)="showDetails($event, data)">
             <sc-icon icon="check" title="Published" size="small" *ngIf="data.IsPublished"></sc-icon>
             <sc-icon icon="delete" title="Not published" size="small" *ngIf="!data.IsPublished"></sc-icon>
           </td>
@@ -54,15 +55,12 @@
                 <a *ngFor="let lang of data.Languages" scDropdownItem
                   href="/sitecore/shell/Applications/Content%20Editor.aspx?fo={{data.Id}}&la={{lang}}&sc_lang=en">{{lang}}</a>
 
-                
                 <div *ngIf="data.HasPresentation">
-                    <sc-dropdown-divider></sc-dropdown-divider>
+                  <sc-dropdown-divider></sc-dropdown-divider>
                   <sc-dropdown-header>Exp Editor</sc-dropdown-header>
                   <a *ngFor="let lang of data.Languages" scDropdownItem
                     href="/?sc_mode=edit&sc_itemid={{data.Id}}&sc_lang={{lang}}">{{lang}}</a>
                 </div>
-
-                        
 
                 <sc-dropdown-divider></sc-dropdown-divider>
                 <a scDropdownItem (click)="removeBookmarkedItem(data.Id)">Remove</a>

@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-import { RecentActivityItem } from '../../services/recentActivity';
-import { RecentActivityService } from '../../services/recentActivity.service';
 import { GenericEntityItem } from '../../services/GenericEntityItem';
+import { ContentEditorToolService } from '../../services/ContentEditorTool.service';
 
 @Component({
   selector: 'sc-recent-activity',
   templateUrl: './recent-activity.component.html',
   styleUrls: ['./recent-activity.component.scss']
 })
+
 export class RecentActivityComponent implements OnInit {
 
   recentActivities: GenericEntityItem[];
 
-  constructor(public recentActivityService: RecentActivityService) { }
+  constructor(public contentEditorToolService: ContentEditorToolService) { }
 
   ngOnInit() {
-    
 
-    this.recentActivityService.getRecentActivity().subscribe(
+    this.contentEditorToolService.getRecentActivity().subscribe(
       {
         next: data => {
           this.recentActivities = data as GenericEntityItem[];
