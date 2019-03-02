@@ -46,7 +46,7 @@ My locked items feature allows to check and unlock unlocked items for content ed
 
 Provide detailed instructions on how to install the module, and include screenshots where necessary.
 
-1. Use the Sitecore Installation wizard to install the [package](#link-to-package)
+1. Use the Sitecore Installation wizard to install the [package](../sc.package/ContentEditorToolbox.zip)
 2. Make sure if your search indexes are working correctly
 3. Go the LaunchPad and open the Content Editor Toolbox.
 

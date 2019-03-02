@@ -1,39 +1,120 @@
-﻿![Hackathon Logo](documentation/images/hackathon.png?raw=true "Hackathon Logo")
+# Documentation
+
+The documentation for Content Editor Toolbox module which was built for Sitecore Hackathon 2019.
+## Summary
+
+**Category:** - Best enhancement to the Sitecore Admin (XP) UI for Content Editors & Marketers
+
+The purpose of the module is reducing the number of clicks for content editors. This module helps the content editors to reach 
+the given Item within sitecore. On the other hand, it gives an overview about the content editor's activity. 
+It was built with Sitecore SPEAK3.
+
+### Features
+The module has the following features
+
+#### Bookmark items
+Bookmark items feature allows to save items for content editors in their user profile from Context menu within Content Editor. 
+A SPEAK3 application is built for checking and managing the previously bookmarked items. The following operations are supperted: 
+- Publish the bookmarked item
+- Open in Content Editor in a selected language
+- Open in Experience Editor in a selected language
+- Remove item from bookmarked item list
+- Copy ItemID and ItemPath to clipboard by a single click
+
+It is really useful, when content editors have to update item frequently in a heavy content hiearchy. 
+
+#### Recent activities
+Recent activities feature allows to check and manage previously modified items for content editors. It is really useful when content editors have to
+update the previously created items. 
+- Publish the recently modified/created item
+- Open in Content Editor in a selected language
+- Open in Experience Editor in a selected language
+- Copy ItemID and ItemPath to clipboard by a single click
+
+#### My locked items
+My locked items feature allows to check and unlock unlocked items for content editors. 
+- Unlock the locked items
+- Unlock all locked items
+- Open in Content editor in a selected language
+- Copy ItemID and ItemPath to clipboard by a single click
+
+## Pre-requisites
+
+- Sitecore 9.1
+
+## Installation
+
+Provide detailed instructions on how to install the module, and include screenshots where necessary.
+
+1. Use the Sitecore Installation wizard to install the [package](sc.package/ContentEditorToolbox.zip)
+2. Make sure if your search indexes are working correctly
+3. Go the LaunchPad and open the Content Editor Toolbox.
+
+## Configuration
+
+The module does not requires any configuration, configuration files are using the proper Server Roles. (Standalone or Content Management)
+
+## Usage
+
+### Bookmark items
+When you navigating in Content Editor, you can bookmark items by right clicking on the item. 
+![Hackathon Logo](images/context_menu.png?raw=true "Context menu")
+Once you clicked the item, you can remove bookmark by the next right click. 
+
+Open Sitecore's Launchpad and locate Content Tool Box shortcut. 
+![Hackathon Logo](images/dashboard.png?raw=true "LaunchPad")
+
+Click on "Bookmarks" menu item in the main content area or in the left hand sided navigation
+![Hackathon Logo](images/app_main.png?raw=true "Start Screen")
+
+The following page will be loaded
+![Hackathon Logo](images/bookmark.png?raw=true "Hackathon Logo")
+
+The table contains the following informations for a single bookmark item
+- Icon of the item
+- Item Name
+- Item ID (can be copied to the clipboard)
+- Template Name
+- Path
+- Workflow State
+- If the item is published
+
+There is a tools dropdown which has the following features.
+- Shows 'Open in Experience Editor' action if there is presentation for the item
+- Shows 'Open in Content Editor'
+- Remove from bookmark page. (If you remove the item, the table refreshes automatically)
+- Publish Item (Table refreshes automatically)
+
+### Recent Activity
+Click on "Recent activities" menu item in the main content area or in the left hand sided navigation
+The following page will be loaded
+![Hackathon Logo](images/recent.png?raw=true "Recent activities")
+The table shows items which were created or updated by the context editor user. 
+
+There is a tools dropdown which has the following features.
+- Shows 'Open in Experience Editor' action if there is presentation for the item
+- Shows 'Open in Content Editor'
+- Publish Item (Table refreshes automatically)
+
+### My Locked Items
+Click on "My Locked items" menu item in the main content area or in the left hand sided navigation
+The following page will be loaded
+![Hackathon Logo](images/unlock.png?raw=true "Recent activities")
+The table shows items which were locked by the context editor user. 
+
+There is a tools dropdown which has the following features.
+- Shows 'Open in Experience Editor' action if there is presentation for the item
+- Shows 'Open in Content Editor'
+- Unlock Item (Table refreshes automatically)
+
+The page has the 'Unlock all items' option which unlocks all locked items. 
+
+Before the application unlock the items, it shows a confirmation dialog for the editor user. 
+![Hackathon Logo](images/unlock_warning.png?raw=true "Warning")
 
 
-# Submission Boilerplate
+## Video
 
-Welcome to Sitecore Hackathon 2019.
-
-The Hackathon site can be found at http://www.sitecorehackathon.org/sitecore-hackathon-2019/
-
-The purpose of this repository is to provide a sample which shows how to structure the Hackathon submissions.
+[Video](https://www.youtube.com/watch?v=6aWJVwSVP4c) 
 
 
-## Entry Submission Requirements 
-
-All teams are required to submit the following as part of their entry submission on or before the end of the Hackathon on **Friday March 1st 2019 at 8PM EST**. The modules should be based on [Sitecore 9.1 (Initial Release)](https://dev.sitecore.net/Downloads/Sitecore_Experience_Platform/91/Sitecore_Experience_Platform_91_Initial_Release.aspx).
-
-**Failure to meet any of the requirements will result in automatic disqualification.** Please reach out to any of the organisers or judges if you require any clarification.
-
-- Sitecore 9.1 (Initial Release) Module (Module install package)
-   - An installation Sitecore Package (`.zip` or `.update`)
-
-- Module code in a public Git source repository. We will be judging (amongst other things):
-  - Cleanliness of code
-  - Commenting where necessary
-  - Code Structure
-  - Standard coding standards & naming conventions
-
-- Precise and Clear Installation Instructions document (1 – 2 pages)
-- Module usage documentation on [Readme.md](documentation) file on the Git Repository (2 – 5 pages)
-  - Module Purpose
-  - Module Sitecore Hackathon Category
-  - How does the end user use the Module?
-  - Screenshots, etc.
-
-- Create a 2 – 10 minutes video explaining the module’s functionality (A link to youtube video)
-
-  - What problem was solved
-  - How did you solve it
-  - What is the end result
