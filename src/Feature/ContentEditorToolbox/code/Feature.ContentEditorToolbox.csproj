@@ -247,6 +247,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Config\Include\Feature\Feature.ContentEditorToolbox.config" />
+    <Content Include="App_Config\Include\Feature\Feature.ContentEditorToolbox.Serialization.config" />
     <None Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -256,10 +258,10 @@
     <Compile Include="Models\GenericItemEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CustomItemRepository.cs" />
+    <Compile Include="Interfaces\IUserActivityService.cs" />
     <Compile Include="Services\UserActivityService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Config\Include\Feature.ContentEditorToolbox.config" />
     <None Include="packages.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">

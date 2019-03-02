@@ -1,20 +1,24 @@
-﻿using Feature.ContentEditorToolbox.Services;
-using Sitecore.Data;
-using Sitecore.Data.Items;
-using Sitecore.Data.Managers;
-using Sitecore.SecurityModel;
+﻿using Feature.ContentEditorToolbox.Interfaces;
+using Feature.ContentEditorToolbox.Services;
 using Sitecore.Shell.Framework.Commands;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace Feature.ContentEditorToolbox.Commands
 {
+    /// <summary>
+    /// The add bookmark command
+    /// </summary>
     public class AddBookmarkCommand : Command
     {
-        private UserActivityService service = new UserActivityService();
+        /// <summary>
+        /// The user activity service
+        /// </summary>
+        private IUserActivityService service = new UserActivityService();
 
+        /// <summary>
+        /// Execute the command - bookmarkd or un-bookmark the page
+        /// </summary>
+        /// <param name="context">The context</param>
         public override void Execute(CommandContext context)
         {
             var contextItem = context.Items.FirstOrDefault();
@@ -34,6 +38,12 @@ namespace Feature.ContentEditorToolbox.Commands
             }
         }
 
+        /// <summary>
+        /// Gets the command text
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="header"></param>
+        /// <returns></returns>
         public override string GetHeader(CommandContext context, string header)
         {
             var contextItem = context.Items.FirstOrDefault();

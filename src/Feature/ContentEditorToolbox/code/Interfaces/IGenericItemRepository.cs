@@ -32,5 +32,11 @@ namespace Feature.ContentEditorToolbox.Interfaces
         /// </summary>
         /// <param name="entity">The item</param>
         void Unlock(T entity);
+
+        /// <summary>
+        /// Publish the item
+        /// </summary>
+        /// <param name="entity">The item</param>
+        void Publish(T entity);
     }
 }

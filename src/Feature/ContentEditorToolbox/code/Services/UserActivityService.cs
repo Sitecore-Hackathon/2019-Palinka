@@ -1,6 +1,6 @@
-﻿using Sitecore.Configuration;
+﻿using Feature.ContentEditorToolbox.Interfaces;
+using Sitecore.Configuration;
 using Sitecore.ContentSearch;
-using Sitecore.ContentSearch.Linq;
 using Sitecore.ContentSearch.SearchTypes;
 using Sitecore.Data.Managers;
 using System;
@@ -12,16 +12,32 @@ namespace Feature.ContentEditorToolbox.Services
     /// <summary>
     /// The user activity service
     /// </summary>
-    public class UserActivityService
+    public class UserActivityService : IUserActivityService
     {
+        /// <summary>
+        /// The bookmark list profile field
+        /// </summary>
         private string profileFieldName = "BookmarkList";
 
+        /// <summary>
+        /// The content root path - used for retrieving the relevant index
+        /// </summary>
         private string contentRootPath = "/sitecore/content";
 
-        private int maxItemCount = 100;
+        /// <summary>
+        /// The maximum item count in the result
+        /// </summary>
+        private int maxItemCount = 60;
 
+        /// <summary>
+        /// The default master index name
+        /// </summary>
         private string defaultMasterIndex = "sitecore_master_index";
 
+        /// <summary>
+        /// Check has logged in Sitecore user
+        /// </summary>
+        /// <returns></returns>
         public bool CheckUser()
         {
             if (Sitecore.Context.User != null &&
@@ -34,9 +50,13 @@ namespace Feature.ContentEditorToolbox.Services
             return false;
         }
 
+        /// <summary>
+        /// Gets the logged in user name
+        /// </summary>
+        /// <returns>The user name</returns>
         public string GetUserName()
         {
-            if (!CheckUser())
+            if (!this.CheckUser())
             {
                 return null;
             }
@@ -44,9 +64,13 @@ namespace Feature.ContentEditorToolbox.Services
             return Sitecore.Context.User.LocalName;
         }
 
+        /// <summary>
+        /// Gets the logged in user full name
+        /// </summary>
+        /// <returns>The user name</returns>
         public string GetUserFullName()
         {
-            if (!CheckUser())
+            if (!this.CheckUser())
             {
                 return null;
             }
@@ -54,6 +78,10 @@ namespace Feature.ContentEditorToolbox.Services
             return Sitecore.Context.User.Name;
         }
 
+        /// <summary>
+        /// Gets the bookmark list as Ids from user profile
+        /// </summary>
+        /// <returns>The ID list</returns>
         public IEnumerable<string> GetBookmarkList()
         {
             var profile = Sitecore.Context.User.Profile;
@@ -69,8 +97,8 @@ namespace Feature.ContentEditorToolbox.Services
         /// <summary>
         /// Check whether the item is bookmarked
         /// </summary>
-        /// <param name="item"></param>
-        /// <returns></returns>
+        /// <param name="item">The item</param>
+        /// <returns>Is bookmarked</returns>
         public bool IsBookmarked(Sitecore.Data.Items.Item item)
         {
             var profile = Sitecore.Context.User.Profile;
@@ -182,7 +210,7 @@ namespace Feature.ContentEditorToolbox.Services
         /// <summary>
         /// Gets the master search index
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The master search index</returns>
         private ISearchIndex GetSearchIndex()
         {
             var database = Factory.GetDatabase("master");

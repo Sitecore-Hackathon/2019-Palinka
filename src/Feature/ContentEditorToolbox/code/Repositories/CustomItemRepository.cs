@@ -1,4 +1,5 @@
-﻿using Feature.ContentEditorToolbox.Models;
+﻿using Feature.ContentEditorToolbox.Interfaces;
+using Feature.ContentEditorToolbox.Models;
 using Feature.ContentEditorToolbox.Services;
 using Sitecore.Data;
 using Sitecore.Data.Managers;
@@ -27,7 +28,7 @@ namespace Feature.ContentEditorToolbox.Repositories
         /// <summary>
         /// The user activity service
         /// </summary>
-        UserActivityService service = new UserActivityService();
+        private readonly IUserActivityService service;
 
         /// <summary>
         /// Intializes a new custom item repository
@@ -36,6 +37,7 @@ namespace Feature.ContentEditorToolbox.Repositories
         {
             this.database = Sitecore.Data.Database.GetDatabase("master");
             this.liveDatabase = Sitecore.Data.Database.GetDatabase("web");
+            this.service = new UserActivityService();
         }
 
         /// <summary>
@@ -114,7 +116,7 @@ namespace Feature.ContentEditorToolbox.Repositories
                     HasPresentation = HasPresentation(finalVersion),
                     WorkflowState = GetWorkflowState(finalVersion),
                     IsPublished = IsLive(sitecoreItem),
-                    Updated = finalVersion.Statistics.Updated.ToShortTimeString()
+                    Updated = finalVersion.Statistics.Updated.ToString("yyyy-MM-dd HH:mm")
                 };
 
                 return item;
@@ -226,6 +228,23 @@ namespace Feature.ContentEditorToolbox.Repositories
         }
 
         /// <summary>
+        /// Publish the item
+        /// </summary>
+        /// <param name="entity">The item</param>
+        public void Publish(GenericItemEntity entity)
+        {
+            if (string.IsNullOrEmpty(entity.Id))
+            {
+                return;
+            }
+
+            var item = this.database.GetItem(entity.Id);
+            var targets = new Database[] { liveDatabase };
+
+            Sitecore.Publishing.PublishManager.PublishItem(item, targets, item.Languages, true, false, false);
+        }
+
+        /// <summary>
         /// Gets the icon of the item
         /// </summary>
         /// <param name="sitecoreItem">The item</param>
@@ -310,10 +329,10 @@ namespace Feature.ContentEditorToolbox.Repositories
             var wf = database.WorkflowProvider.GetWorkflow(sitecoreItem);
             if (wf != null)
             {
-                return wf.GetState(sitecoreItem)?.DisplayName;
+                return $"{wf.GetState(sitecoreItem)?.DisplayName} ({sitecoreItem.Language.Name})";
             }
 
-            return null;
+            return "-";
         }
     }
 }
