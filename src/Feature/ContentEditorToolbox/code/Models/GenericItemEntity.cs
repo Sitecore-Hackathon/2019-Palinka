@@ -1,7 +1,8 @@
-﻿using Sitecore.Services.Core;
-
-namespace Feature.ContentEditorToolbox.Models
+﻿namespace Feature.ContentEditorToolbox.Models
 {
+    /// <summary>
+    /// The generic item entity model
+    /// </summary>
     public class GenericItemEntity : Sitecore.Services.Core.Model.EntityIdentity
     {
         public string Name { get; set; }

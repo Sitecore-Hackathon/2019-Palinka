@@ -9,6 +9,9 @@ using System.Linq;
 
 namespace Feature.ContentEditorToolbox.Services
 {
+    /// <summary>
+    /// The user activity service
+    /// </summary>
     public class UserActivityService
     {
         private string profileFieldName = "BookmarkList";
@@ -114,6 +117,11 @@ namespace Feature.ContentEditorToolbox.Services
             }
         }
 
+        /// <summary>
+        /// Gets the recent updates
+        /// </summary>
+        /// <param name="days">The number of days</param>
+        /// <returns>The updated items</returns>
         public IEnumerable<string> GetRecentUpdates(int days)
         {
             var index = GetSearchIndex();
@@ -132,6 +140,33 @@ namespace Feature.ContentEditorToolbox.Services
             }
         }
 
+        /// <summary>
+        /// Gets the recent updates
+        /// </summary>
+        /// <param name="days">The number of days</param>
+        /// <returns>The updated items</returns>
+        public IEnumerable<string> GetMyLockedItems()
+        {
+            var index = GetSearchIndex();
+            string userName = $"sitecore{GetUserName()}".ToLower();
+
+            using (var context = index.CreateSearchContext())
+            {
+                var results = context.GetQueryable<SearchResultItem>()
+                                      .Where(item => item.LockOwner.Equals(userName))
+                                      .OrderBy(item => item.Updated)
+                                      .Take(maxItemCount)
+                                      .ToArray();
+
+                return results.Select(t => t.ItemId.ToString()).Distinct();
+            }
+        }
+
+        /// <summary>
+        /// Gets the recent updates from history engine
+        /// </summary>
+        /// <param name="days">The number of days</param>
+        /// <returns>The updated items</returns>
         public IEnumerable<string> GetChangesFromHistory(int days)
         {
             var database = Factory.GetDatabase("master");
@@ -144,6 +179,10 @@ namespace Feature.ContentEditorToolbox.Services
                 .ToArray();
         }
 
+        /// <summary>
+        /// Gets the master search index
+        /// </summary>
+        /// <returns></returns>
         private ISearchIndex GetSearchIndex()
         {
             var database = Factory.GetDatabase("master");
