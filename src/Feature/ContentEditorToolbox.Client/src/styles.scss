@@ -3,12 +3,9 @@ html, body {
   height: 100%;
 }
 .bookmarkTools{
-  //  box-sizing: content-box;
   width:100%;
   display:block;
-  .btn{
-    
-  }
+
   .dropdownMenu{
     width:100%;
   }
@@ -45,5 +42,9 @@ html, body {
 
 .main-menu-item{
   text-align:center;
+}
+
+.red{
+  color:red;
 }
 

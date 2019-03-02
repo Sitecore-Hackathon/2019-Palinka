@@ -11,21 +11,39 @@ import { ContentEditorToolService } from '../../services/ContentEditorTool.servi
 export class RecentActivityComponent implements OnInit {
 
   recentActivities: GenericEntityItem[];
-
+  recentActivitiesIsLoading: boolean;
+  hasError: boolean;
   constructor(public contentEditorToolService: ContentEditorToolService) { }
 
   ngOnInit() {
+    this.load();
+  }
 
+  load() {
+    this.recentActivitiesIsLoading = true;
     this.contentEditorToolService.getRecentActivity().subscribe(
       {
         next: data => {
           this.recentActivities = data as GenericEntityItem[];
+          this.recentActivitiesIsLoading = false;
         },
         error: error => {
-          this.recentActivities = error;
+          this.hasError = true;
+          setTimeout(() => { this.hasError = false }, 3000);
+          this.recentActivitiesIsLoading = false;
         }
       }
     );
   }
 
+  publisItem(itemId: string) {
+    this.contentEditorToolService.publishItem(itemId).subscribe({
+      next: () => { setTimeout(() => { this.load()}, 1000); },  // success
+      error: () => {
+        this.hasError = true;
+        setTimeout(() => { this.hasError = false }, 3000);
+        this.recentActivitiesIsLoading = false;
+      }
+    });
+  }
 }
